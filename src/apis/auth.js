@@ -1,4 +1,4 @@
-import KbAxios from "../../apis/KbAxios";
+import KbAxios from "./KbAxios";
 import { jwtDecode } from 'jwt-decode'
 
 export const login = async (email, password, rememberMe) => {
@@ -31,4 +31,17 @@ export const logout = () => {
    window.sessionStorage.removeItem('jwt')
    window.sessionStorage.removeItem('role')
    window.location.replace("http://localhost:3000")
+}
+
+export const register = (korisnikRegister) => {
+   console.log("Body 1: ", korisnikRegister);
+   KbAxios.post('/korisnici/register', korisnikRegister)
+      .then(() => {
+         console.log("Body 2: ", korisnikRegister);
+         login(korisnikRegister.email, korisnikRegister.password, false)
+      })
+      .catch((err) => {
+         console.log(err);
+         alert("Registracija nije uspela")
+      })
 }
